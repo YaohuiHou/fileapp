@@ -5,6 +5,20 @@
   "description": "An electron-vue project",
   "license": null,
   "main": "./dist/electron/main.js",
+  // "scripts": {
+  //   "build": "node .electron-vue/build.js && electron-builder",
+  //   "build:dir": "node .electron-vue/build.js && electron-builder --dir",
+  //   "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
+  //   "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
+  //   "dev": "node .electron-vue/dev-runner.js",
+  //   "e2e": "npm run pack && mocha test/e2e",
+  //   "pack": "npm run pack:main && npm run pack:renderer",
+  //   "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
+  //   "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
+  //   "test": "npm run unit && npm run e2e",
+  //   "unit": "karma start test/unit/karma.conf.js",
+  //   "postinstall": ""
+  // },
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder --platform=win32  --arch=ia32",
     "win32": "node .electron-vue/build.js && electron-builder --platform=win32  --arch=ia32",

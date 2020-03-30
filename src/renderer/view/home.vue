@@ -204,6 +204,13 @@ export default {
       if (index == 2 && !this.tag2) {
         this.tag2 = true
         this.main()
+        this.loading = false
+      } else {
+        if (this.imgArr.length <= 0) {
+          this.loading = true
+        } else {
+          this.loading = false
+        }
       }
     },
     open(link) {

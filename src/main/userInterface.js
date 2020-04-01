@@ -131,7 +131,8 @@ function clearSelected() {
 
 function displayFiles(err, files) {
   if (err) {
-    return alert('无法显示您的文件')
+    showHint('提示', '无法显示您的文件')
+    return
   }
   for (let file of files) {
     displayFile(file), files
@@ -161,7 +162,9 @@ function loadDirectory(folderPath) {
   fileSystem.getFilesInFolder(folderPath, (err, files) => {
     clearView()
     if (err) {
-      return alert('无法加载您的路径')
+      showHint('提示', '没有可以恢复的文件')
+      // return alert('无法加载您的路径')
+      return
     }
     fileSystem.inspectAndDescribeFiles(folderPath, files, displayFiles)
   })

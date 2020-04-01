@@ -77,7 +77,8 @@ const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
 const mineType = require('mime-types') // 文件类型
-const folderPath = '/此电脑/Honor 9i/内部存储/DCIM/Camera'
+const folderPath =
+  '/run/user/1000/gvfs/mtp:host=%5Busb%3A001%2C002%5D/SD卡/相机'
 //
 
 // 文件管理
@@ -111,10 +112,9 @@ export default {
   },
   methods: {
     main() {
-      console.log(userInterface.default)
-
-      const folderPath1 = fileSystem.getUserHomeFolder()
-      console.log(folderPath1)
+      // const folderPath1 = fileSystem.getUserHomeFolder() // 根目录
+      const folderPath1 =
+        '/run/user/1000/gvfs/mtp:host=%5Busb%3A001%2C002%5D/SD卡'
 
       userInterface.default.setBtnHandler()
       userInterface.default.loadDirectory(folderPath1)

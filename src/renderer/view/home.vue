@@ -108,7 +108,6 @@ export default {
       this.handleReadEvent()
       // }, 600);
     })
-    // this.openNodeUsb()
     // this.nodeCmd()
   },
   methods: {
@@ -122,31 +121,31 @@ export default {
       //   console.log(res,'|111');
       
       // })
-      var cmd=require('node-cmd');
+    //   var cmd=require('node-cmd');
  
-    cmd.get(
-        'node',
-        function(err, data, stderr){
-            console.log(err, data, stderr)
-        }
-    );
-    cmd.run('node');
-      var nrc = require('node-run-cmd');
-      var dataCallback = function(data) {
-        // useData(data);
-        console.log(data,'==--===')
-      };
-      var errorCallback = function(data) {
-        console.log(data,' 错误错误错误');
-      };
-      nrc.run(
-        [
-          // 'adb shell su',
-          // "adb shell cd /data/data",
-          // 'adb shell ls'
-          'adb devices',
-        ],
-       { onData: dataCallback ,onError: errorCallback});
+    // cmd.get(
+    //     'node',
+    //     function(err, data, stderr){
+    //         console.log(err, data, stderr)
+    //     }
+    // );
+    // cmd.run('node');
+    //   var nrc = require('node-run-cmd');
+    //   var dataCallback = function(data) {
+    //     // useData(data);
+    //     console.log(data,'==--===')
+    //   };
+    //   var errorCallback = function(data) {
+    //     console.log(data,' 错误错误错误');
+    //   };
+    //   nrc.run(
+    //     [
+    //       // 'adb shell su',
+    //       // "adb shell cd /data/data",
+    //       // 'adb shell ls'
+    //       'adb devices',
+    //     ],
+    //    { onData: dataCallback ,onError: errorCallback});
       
     },
     main() {
@@ -172,15 +171,6 @@ export default {
       })
 
       myNotification.show()
-    },
-    // 启动usb监测
-    openNodeUsb() {
-      console.log('usb')
-      var usb = require('usb')
-
-      usb.on('attach', function(device) {
-        console.log(device)
-      })
     },
     // 桌面
     openMenu(item) {

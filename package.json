@@ -65,6 +65,8 @@
     "lunr": "^2.3.8",
     "mime-types": "^2.1.26",
     "nedb": "^1.8.0",
+    "node-cmd": "^3.0.0",
+    "node-run-cmd": "^1.0.1",
     "osenv": "^0.1.5",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",

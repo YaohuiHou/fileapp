@@ -28,6 +28,18 @@ yarn run dev
 npm run dev
 ```
 
+file中是我的测试路径，需要修改
+
+
+## 启动失败可能需要再手动装
+```
+yarn add node-cmd
+
+yarn add node-run-cmd
+
+yarn add mime-types
+```
+
 ## window 打包
 
 ```

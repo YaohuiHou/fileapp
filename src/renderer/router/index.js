@@ -12,7 +12,7 @@ export default new Router({
     },
     {
       path: '/file',
-      name: 'home',
+      name: 'file',
       component: require('@/view/file.vue').default
     },
     {

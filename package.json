@@ -1,16 +1,12 @@
 {
-  "name": "fileapp",
-  "version": "0.0.1",
+  "name": "fileapp1.0.1",
+  "version": "1.0.1",
   "author": "yaohui.hou <yaohui.hou@qyer.com>",
-  "description": "An electron-vue project",
+  "description": "文件管理系统",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
-    "win32": "node .electron-vue/build.js && electron-builder --platform=win32  --arch=ia32",
-    "win64": "node .electron-vue/build.js && electron-builder --win --x64",
-    "mac": "node .electron-vue/build.js && electron-builder --platform=drwin ",
-    "linux": "node .electron-vue/build.js && electron-builder --platform=linux",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
@@ -24,7 +20,7 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "fileapp",
+    "productName": "fileapp1.0.1",
     "appId": "com.example.yourapp",
     "directories": {
       "output": "build"
@@ -67,9 +63,9 @@
     "axios": "^0.18.0",
     "electron-updater": "^4.2.5",
     "lunr": "^2.3.8",
+    "mime-types": "^2.1.26",
     "nedb": "^1.8.0",
     "osenv": "^0.1.5",
-    "usb": "^1.6.2",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
@@ -78,6 +74,7 @@
   },
   "devDependencies": {
     "ajv": "^6.5.0",
+    "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-minify-webpack-plugin": "^0.3.1",
     "babel-plugin-istanbul": "^4.1.6",
@@ -112,9 +109,7 @@
     "mocha": "^5.2.0",
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",
-    "node-sass": "^4.9.2",
     "require-dir": "^1.0.0",
-    "sass-loader": "^7.0.3",
     "spectron": "^3.8.0",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",

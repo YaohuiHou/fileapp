@@ -40,7 +40,7 @@ const fs = require("fs");
 const fse = require("fs-extra");
 const path = require("path");
 const mineType = require("mime-types"); // 文件类型
-const folderPath = "/Users/houyaohui/Desktop/images";
+const folderPath = "/Users/houyaohui/Desktop/imgs";
 
 // 文件管理
 const fileSystem = require("../../main/fileSystem.js");
@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       tagIndex: 3,
-      tags: ["图片管理", "视频管理", "文件管理", "恢复"],
+      tags: ["图片管理", "视频管理", "文件管理", "恢复","音乐","其他"],
       imgArr: [],
       videoArr: [],
       tag2: false

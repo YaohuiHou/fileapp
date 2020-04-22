@@ -13,27 +13,27 @@ let btnStateChangeEvent = new EventEmitter()
 // 能否前进后退的标记
 let btnState = {
   _canMoveBackward: false,
-  _canMoveForward: false
+  _canMoveForward: false,
 }
 var isRestore = false
 Object.defineProperty(btnState, 'canMoveForward', {
-  get: function() {
+  get: function () {
     return this._canMoveForward
   },
-  set: function(newValue) {
+  set: function (newValue) {
     this._canMoveForward = newValue
     btnStateChangeEvent.emit('btnStateChange')
-  }
+  },
 })
 
 Object.defineProperty(btnState, 'canMoveBackward', {
-  get: function() {
+  get: function () {
     return this._canMoveBackward
   },
-  set: function(newValue) {
+  set: function (newValue) {
     this._canMoveBackward = newValue
     btnStateChangeEvent.emit('btnStateChange')
-  }
+  },
 })
 
 // 显示文件、文件夹
@@ -59,7 +59,7 @@ function displayFile(file, files) {
     // 为文件夹添加双击监听
     fileItem.addEventListener(
       'dblclick',
-      e => {
+      (e) => {
         pageStack.splice(pageIndex + 1, pageStack.length - pageIndex - 1)
         pageStack.push(file.path)
         pageIndex = pageStack.length - 1
@@ -81,15 +81,15 @@ function displayFile(file, files) {
   let originPosition = {
     x: 0,
     y: 0,
-    hasBeenSet: false
+    hasBeenSet: false,
   }
   // 为文件添加选中效果
-  fileItem.addEventListener('mousedown', e => {
+  fileItem.addEventListener('mousedown', (e) => {
     clearSelected()
     e.currentTarget.classList.add('selected')
   })
   // 为文件添加拖拽
-  fileItem.addEventListener('mousedown', e => {
+  fileItem.addEventListener('mousedown', (e) => {
     if (e.button != 0) {
       return
     }
@@ -103,7 +103,7 @@ function displayFile(file, files) {
     document.addEventListener('mousemove', changePosition)
   })
   // 为文件取消拖拽监听
-  document.addEventListener('mouseup', e => {
+  document.addEventListener('mouseup', (e) => {
     document.removeEventListener('mousemove', changePosition)
   })
 
@@ -112,7 +112,7 @@ function displayFile(file, files) {
     fileItem.style.left = e.clientX - originPosition.x + 'px'
   }
   // 右键菜单
-  fileItem.addEventListener('mousedown', e => {
+  fileItem.addEventListener('mousedown', (e) => {
     if (e.button == 2) {
       e.preventDefault()
       setFileItemRightkeyMenu(file.path)
@@ -174,6 +174,8 @@ function setBtnHandler(n) {
   // 通过n判断是否可以恢复
   if (n) {
     isRestore = true
+  } else {
+    isRestore = false
   }
   let navBtns = document.querySelectorAll('.navBtn')
   for (let i = 0, length = navBtns.length; i < length; i++) {
@@ -230,7 +232,7 @@ function bindSearchField(cb) {
 }
 
 function filterResults(results) {
-  const validFilePaths = results.map(result => {
+  const validFilePaths = results.map((result) => {
     return result.ref
   })
   const items = document.getElementsByClassName('fileItem')
@@ -280,7 +282,7 @@ function displayIcon(clone, fileName) {
 function showHint(title, body) {
   let myNotification = new Notification({
     title: title,
-    body: body
+    body: body,
   })
 
   myNotification.show()
@@ -293,22 +295,22 @@ function setFileItemRightkeyMenu(filePath) {
     menu.append(
       new MenuItem({
         label: '备份',
-        click: e => {
+        click: (e) => {
           // Async with promises:
           fse
             .copy(filePath, fileSystem.getUserHomeFolder() + '/tmp/' + filePath)
             .then(() => {
               showHint('提示', '备份成功！')
             })
-            .catch(err => console.error(err))
-        }
+            .catch((err) => console.error(err))
+        },
       })
     )
   } else {
     menu.append(
       new MenuItem({
         label: '恢复',
-        click: e => {
+        click: (e) => {
           // Async with promises:
           let mypath = filePath.split('/tmp')
           let thisPath = filePath
@@ -322,8 +324,8 @@ function setFileItemRightkeyMenu(filePath) {
             .then(() => {
               showHint('提示', '恢复成功！')
             })
-            .catch(err => console.error(err))
-        }
+            .catch((err) => console.error(err))
+        },
       })
     )
   }
@@ -333,7 +335,7 @@ function setFileItemRightkeyMenu(filePath) {
       label: '刷新',
       click() {
         loadDirectory(pageStack[pageIndex])
-      }
+      },
     })
   )
   menu.popup({ window: remote.getCurrentWindow() })
@@ -345,5 +347,5 @@ export default {
   setBtnHandler,
   bindSearchField,
   resetFileter,
-  filterResults
+  filterResults,
 }

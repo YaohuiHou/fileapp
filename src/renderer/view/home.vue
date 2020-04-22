@@ -77,8 +77,8 @@ const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
 const mineType = require('mime-types') // 文件类型
-const folderPath =
-  '/run/user/1000/gvfs/mtp:host=%5Busb%3A001%2C002%5D/SD卡/相机'
+const folderPath = "/Users/houyaohui/Desktop/imgs";
+  // '/run/user/1000/gvfs/mtp:host=%5Busb%3A001%2C002%5D/SD卡/相机'
 //
 
 // 文件管理
@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       tagIndex: 0,
-      tags: ['图片管理', '视频管理', '文件管理', '恢复'],
+      tags: ["图片管理", "视频管理", "文件管理", "恢复","音乐","其他"],
       imgArr: [],
       videoArr: [],
       tag2: false,
@@ -109,8 +109,46 @@ export default {
       // }, 600);
     })
     // this.openNodeUsb()
+    // this.nodeCmd()
   },
   methods: {
+    nodeCmd(){
+      // var process = require('child_process');
+
+      // process.exec(`adb shell su`, (error, res) => {
+      //   if (error) {
+      //       throw error;
+      //   }
+      //   console.log(res,'|111');
+      
+      // })
+      var cmd=require('node-cmd');
+ 
+    cmd.get(
+        'node',
+        function(err, data, stderr){
+            console.log(err, data, stderr)
+        }
+    );
+    cmd.run('node');
+      var nrc = require('node-run-cmd');
+      var dataCallback = function(data) {
+        // useData(data);
+        console.log(data,'==--===')
+      };
+      var errorCallback = function(data) {
+        console.log(data,' 错误错误错误');
+      };
+      nrc.run(
+        [
+          // 'adb shell su',
+          // "adb shell cd /data/data",
+          // 'adb shell ls'
+          'adb devices',
+        ],
+       { onData: dataCallback ,onError: errorCallback});
+      
+    },
     main() {
       // const folderPath1 = fileSystem.getUserHomeFolder() // 根目录
       const folderPath1 =

@@ -16,7 +16,7 @@
           alt
         />
       </div>
-      <ul class="images" v-show="tagIndex == 0">
+      <ul class="images files" v-show="tagIndex == 0">
         <li
           :title="item.path"
           v-for="(item, index) in imgArr"
@@ -33,7 +33,7 @@
           <p>{{ item.name }}</p>
         </li>
       </ul>
-      <ul class="videos" v-show="tagIndex == 1">
+      <ul class="videos files" v-show="tagIndex == 1">
         <li
           v-for="(item, index) in videoArr"
           :key="index"
@@ -45,7 +45,34 @@
           <p>{{ item.name }}</p>
         </li>
       </ul>
-      <div v-show="tagIndex == 2">
+      <ul class="musics files" v-show="tagIndex == 2">
+        <li
+          v-for="(item, index) in musicsArr"
+          :key="index"
+          @mousedown="openMenu(item)"
+        >
+          <figure>
+            <img v-if="item.type === 'mp3'" src="~@/assets/mp3.png" alt />
+            <img v-else src="~@/assets/wav.png" alt />
+          </figure>
+          <p>{{ item.name }}</p>
+        </li>
+      </ul>
+      <div class="other files" v-show="tagIndex == 3">
+        <div class="item" @mousedown="openOther(0)">
+          <span>讯</span>
+          <i>通讯录</i>
+        </div>
+        <div class="item" @mousedown="openOther(1)">
+          <span>记</span>
+          <i>通话记录</i>
+        </div>
+        <div class="item" @mousedown="openOther(2)">
+          <span>短</span>
+          <i>短信</i>
+        </div>
+      </div>
+      <div v-show="tagIndex == tags.length - 2">
         <header id="toolBar">
           <section class="navBtnContainer">
             <button class="navBtn" id="backward" disabled>
@@ -54,15 +81,10 @@
             <button class="navBtn" id="forward" disabled>
               <img src="~@/assets/forward.png" alt />
             </button>
-            <!-- <button class="navBtn" id="home">
-              <img src="~@/assets/home.png" alt />
-            </button>-->
           </section>
-          <!-- <section id="current-folder"></section> -->
-          <!-- <input type="search" id="search" results="3" placeholder="Search" /> -->
         </header>
         <!-- 显示文件主区域 -->
-        <section id="main-area"></section>
+        <section id="main-area" class="files"></section>
       </div>
       <ul class="restore" v-show="tagIndex == 3"></ul>
     </div>
@@ -77,7 +99,8 @@ const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
 const mineType = require('mime-types') // 文件类型
-const folderPath = "/Users/houyaohui/Desktop/imgs";
+const folderPath = "/Users/houyaohui/Downloads";
+const musicsPath = "/Users/houyaohui/Downloads/1"
   // '/run/user/1000/gvfs/mtp:host=%5Busb%3A001%2C002%5D/SD卡/相机'
 //
 
@@ -91,9 +114,10 @@ export default {
   data() {
     return {
       tagIndex: 0,
-      tags: ["图片管理", "视频管理", "文件管理", "恢复","音乐","其他"],
+      tags: ["图片管理", "视频管理","音乐","其他", "文件管理","恢复"],
       imgArr: [],
       videoArr: [],
+      musicsArr: [],
       tag2: false,
       loading: true
     }
@@ -108,46 +132,8 @@ export default {
       this.handleReadEvent()
       // }, 600);
     })
-    // this.nodeCmd()
   },
   methods: {
-    nodeCmd(){
-      // var process = require('child_process');
-
-      // process.exec(`adb shell su`, (error, res) => {
-      //   if (error) {
-      //       throw error;
-      //   }
-      //   console.log(res,'|111');
-      
-      // })
-    //   var cmd=require('node-cmd');
- 
-    // cmd.get(
-    //     'node',
-    //     function(err, data, stderr){
-    //         console.log(err, data, stderr)
-    //     }
-    // );
-    // cmd.run('node');
-    //   var nrc = require('node-run-cmd');
-    //   var dataCallback = function(data) {
-    //     // useData(data);
-    //     console.log(data,'==--===')
-    //   };
-    //   var errorCallback = function(data) {
-    //     console.log(data,' 错误错误错误');
-    //   };
-    //   nrc.run(
-    //     [
-    //       // 'adb shell su',
-    //       // "adb shell cd /data/data",
-    //       // 'adb shell ls'
-    //       'adb devices',
-    //     ],
-    //    { onData: dataCallback ,onError: errorCallback});
-      
-    },
     main() {
       // const folderPath1 = fileSystem.getUserHomeFolder() // 根目录
       const folderPath1 =
@@ -171,6 +157,41 @@ export default {
       })
 
       myNotification.show()
+    },
+    openOther(n){
+      const menu = new Menu()
+      menu.append(
+        new MenuItem({
+          label: '备份',
+          click: e => {
+            let arr = [
+              'data/data/com.android.providers.telephony',
+              'data/data/com.android.providers.contacts',
+              'data/data/com.android.providers.contacts'
+            ]
+            let files = [
+              'mmssms.db','contacts2.db','contacts2.db'
+            ]
+            // 短信是：data/data/com.android.providers.telephony目录下的mmssms.db数据库文件中的sms表
+            // 通话记录：data/data/com.android.providers.contacts目录下的contacts2.db数据库文件中的call表
+            // 联系人是：data/data/com.android.providers.contacts目录下的contacts2.db数据库文件中的contacts表
+            fse.ensureDir(fileSystem.getUserHomeFolder() + '/tmp/' + arr[n],  (err)=> {
+              fs
+              .writeFileSync(
+                fileSystem.getUserHomeFolder() + '/tmp/' + arr[n] +'/'+files[n],
+                '.',
+                'utf8',
+                (err) => {
+                  console.log(err,'失败');
+                  
+                  this.showHint('提示', '备份成功！')
+                }
+              )
+            })
+          }
+        })
+      )
+      menu.popup({ window: remote.getCurrentWindow() })
     },
     // 桌面
     openMenu(item) {
@@ -223,26 +244,105 @@ export default {
       }, 3e3)
     },
     changeIndex(index) {
-      if (index == 3) {
+      if (index == this.tags.length - 1) {
         // 恢复页面
         this.$router.push('/file')
         return
       }
       this.tagIndex = index
-      if (index == 2 && !this.tag2) {
+      if (index == this.tags.length - 2 && !this.tag2) {
         this.tag2 = true
         this.main()
         this.loading = false
-      } else {
+      } else if(index == 0 || index == 1){
         if (this.imgArr.length <= 0) {
           this.loading = true
         } else {
           this.loading = false
         }
+      }else if(index == 2){
+        this.loading = true
+        // 音乐
+        this.getMusics()
       }
     },
     open(link) {
       this.$electron.shell.openItem(link)
+    },
+    getMusics() {
+      const allUpload = []
+      resultUrl = []
+      let imgarr = [],
+        filearr = []
+      
+      try {
+        root = fs.readdirSync(musicsPath)
+        localStorage.setItem('readPath', musicsPath)
+        let str = ''
+        if (root && root.length) {
+          root.forEach(m => {
+            let postFix = m.split('.')
+            let _filetype = 'unknow'
+            if (postFix.length > 0) {
+              _filetype = postFix[postFix.length - 1]
+            }
+            const obj = {
+              name: m,
+              path: musicsPath + '/' + m,
+              size: 0,
+              status: 0,
+              date: '',
+              isFile: false,
+              base64Url: '',
+              fileUrl: '',
+              type: _filetype,
+              suffix: ''
+            }
+            let imgH = ['mp3', 'wma', 'wav', 'mod', 'ra' ]
+            if (imgH.indexOf(_filetype) >= 0) {
+              imgarr.push(obj)
+            }
+
+            try {
+              const fileInfo = fs.statSync(obj.path)
+              const fileType = mineType.lookup(obj.path)
+              let data = fs.readFileSync(obj.path)
+              data = Buffer.from(data).toString('base64')
+              obj.base64Url = 'data:' + fileType + ';base64,' + data
+              obj.isFile = fileInfo.isFile()
+              obj.suffix = fileType || ''
+              obj.size = Math.ceil(fileInfo.size / 1024) + ' KB' || 0
+
+              obj.date =
+                new Date(fileInfo.birthtime).format('yyyy-MM-dd hh:mm:ss') || ''
+
+              // 判断是否已经上传
+              let localData = localStorage.getItem('recordList')
+              localData = localData ? JSON.parse(localData) : []
+              const isExist = localData.find(h => h.name == obj.name)
+              if (!isExist && obj.isFile && fileType.includes('image')) {
+                // 处理
+                obj.type = 'image'
+              } else {
+                obj.type = 'file'
+                obj.status = 1
+                obj.fileUrl = isExist.url
+              }
+            } catch (error) {}
+            // str += `<div class="resultArea_item" path="${folderPath}/${m}">${m}</div>`
+          })
+          // 排序
+          imgarr = this.sortFun(imgarr)
+
+          // 渲染
+          this.musicsArr = imgarr
+          console.log(imgarr);
+          
+          this.loading = false
+        }
+      } catch (error) {
+        console.log('错误')
+      }
     },
     handleReadEvent: function() {
       const allUpload = []
@@ -359,6 +459,15 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: 'iconfont';  /* project id 1576489 */
+  src: url('https://at.alicdn.com/t/font_1576489_lq4yh6dxwd.eot');
+  src: url('https://at.alicdn.com/t/font_1576489_lq4yh6dxwd.eot?#iefix') format('embedded-opentype'),
+  url('https://at.alicdn.com/t/font_1576489_lq4yh6dxwd.woff2') format('woff2'),
+  url('https://at.alicdn.com/t/font_1576489_lq4yh6dxwd.woff') format('woff'),
+  url('https://at.alicdn.com/t/font_1576489_lq4yh6dxwd.ttf') format('truetype'),
+  url('https://at.alicdn.com/t/font_1576489_lq4yh6dxwd.svg#iconfont') format('svg');
+}
 * {
   padding: 0;
   margin: 0;
@@ -428,8 +537,11 @@ img {
   height: 100%;
   overflow: auto;
   box-sizing: border-box;
-  padding: 20px 0 20px 20px;
+  padding: 20px 20px 20px 0;
   position: relative;
+}
+.right .files{
+  padding-left: 20px;
 }
 .right ul {
   display: flex;
@@ -464,5 +576,33 @@ img {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: center;
+}
+.other{
+  display: flex;
+  padding: 20px
+}
+.other .item{
+  margin-right: 10px;
+  width: 100px;
+  cursor: pointer;
+}
+.other .item span{
+  font-family: 'iconfont';
+  display: block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  font-size: 50px;
+  color: #187556;
+  text-align: center;
+  margin: 0 auto;
+}
+.other .item i{
+  text-align: center;
+  line-height: 30px;
+  font-size: 12px;
+  color: #333;
+  font-style: normal;
+  display: block;
 }
 </style>

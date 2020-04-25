@@ -8,7 +8,7 @@
         @click="changeIndex(index)"
       >{{ name }}</span>
     </div>
-    <div class="right">
+    <div class="right file-right">
       <div>
         <header id="toolBar">
           <section class="navBtnContainer">
@@ -51,8 +51,8 @@ let root,
 export default {
   data() {
     return {
-      tagIndex: 3,
-      tags: ["图片管理", "视频管理", "文件管理", "恢复","音乐","其他"],
+      tagIndex: 5,
+      tags: ["图片管理", "视频管理","音乐","其他", "文件管理", "恢复"],
       imgArr: [],
       videoArr: [],
       tag2: false
@@ -85,10 +85,10 @@ export default {
       myNotification.show();
     },
     changeIndex(index) {
-      if (index == 3) {
+      if (index == this.tags.length-1) {
         return;
       }
-      this.$router.push({ path: "/home", query: { id: index } });
+      this.$router.push({ path: "/", query: { id: index } });
     },
     open(link) {
       this.$electron.shell.openItem(link);
@@ -153,7 +153,9 @@ img {
   height: 100%;
   overflow: auto;
   box-sizing: border-box;
-  padding: 20px 0 20px 20px;
+}
+.file-right{
+  padding: 20px 20px 20px 0;
 }
 .right ul {
   display: flex;

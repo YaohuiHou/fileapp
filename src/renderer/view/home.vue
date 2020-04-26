@@ -114,7 +114,7 @@ export default {
   data() {
     return {
       tagIndex: 0,
-      tags: ["图片管理", "视频管理","音乐","其他", "文件管理","恢复"],
+      tags: ["图片", "视频","音乐","其他", "文件","恢复"],
       imgArr: [],
       videoArr: [],
       musicsArr: [],
@@ -164,6 +164,19 @@ export default {
         new MenuItem({
           label: '备份',
           click: e => {
+            // adb
+            try{
+              var nrc = require('node-run-cmd');
+              var commands = [
+                'adb shell',
+                'su adb'
+              ];
+              nrc.run(commands);
+            } catch(err){
+              console.log(err);
+            }
+
+
             let arr = [
               'data/data/com.android.providers.telephony',
               'data/data/com.android.providers.contacts',

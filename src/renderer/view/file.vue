@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       tagIndex: 5,
-      tags: ["图片管理", "视频管理","音乐","其他", "文件管理", "恢复"],
+      tags: ["图片", "视频","音乐","其他", "文件", "恢复"],
       imgArr: [],
       videoArr: [],
       tag2: false

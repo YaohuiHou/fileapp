@@ -60,7 +60,7 @@
     }
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "electron-updater": "^4.2.5",
     "lunr": "^2.3.8",
     "mime-types": "^2.1.26",
